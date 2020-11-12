@@ -8,6 +8,8 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 @Service("UserService")
@@ -29,5 +31,19 @@ public class UserServiceImpl implements UserService {
         userVo.setTotal(page.getTotal());
         userVo.setUserList(page.getRecords());
         return userVo;
+    }
+
+    /**
+     * 添加用户
+     * @param user
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addUser(User user) {
+        //对密码加密
+        String md5Password = DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes());
+        user.setUserPassword(md5Password);
+        user.setDelFlag(0);
+        userMapper.insert(user);
     }
 }
