@@ -6,12 +6,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.Vo.UserVo;
 import com.example.demo.common.Assert;
 import com.example.demo.common.R;
+import com.example.demo.common.ShiroUtils;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import com.example.demo.util.Constant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -86,5 +89,26 @@ public class UserController {
             return R.error(e.getMessage());
         }
 
+    }
+    /**
+     * 重置密码
+     * @param userId
+     * @return
+     */
+    @PostMapping("/restartPassword")
+    @ApiOperation(value = "重置密码")
+    @ApiImplicitParam(name = "userId", value = "用户id", required = true, paramType = "query", dataType = "Long")
+    public R restartPassword(Long userId){
+        Assert.isNull(userId, "用户ID不能为空");
+        //sha256加密
+        String salt = RandomStringUtils.randomAlphanumeric(20);
+        //新密码
+        String newPassword = ShiroUtils.sha256(Constant.password, salt);
+        User user=new User();
+        user.setUserId(userId);
+        user.setUserPassword(newPassword);
+        user.setUserSalt(salt);
+        int i = userService.restartPassword(user);
+        return i > 0 ? R.ok("重置密码成功") : R.error("重置密码失败");
     }
 }

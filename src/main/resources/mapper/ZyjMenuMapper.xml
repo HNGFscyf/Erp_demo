@@ -4,19 +4,34 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.example.demo.entity.ZyjMenu">
-        <id column="menu_id" property="menuId" />
-        <result column="menu_name" property="menuName" />
-        <result column="menu_parent_id" property="menuParentId" />
-        <result column="menu_url" property="menuUrl" />
-        <result column="menu_css" property="menuCss" />
-        <result column="menu_permissions" property="menuPermissions" />
-        <result column="sort_no" property="sortNo" />
-        <result column="is_show" property="isShow" />
-        <result column="created_by" property="createdBy" />
-        <result column="created_time" property="createdTime" />
-        <result column="updated_by" property="updatedBy" />
-        <result column="updated_time" property="updatedTime" />
-        <result column="del_flag" property="delFlag" />
+        <id column="menu_id" property="menuId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_parent_id" property="menuParentId"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="menu_css" property="menuCss"/>
+        <result column="menu_permissions" property="menuPermissions"/>
+        <result column="sort_no" property="sortNo"/>
+        <result column="is_show" property="isShow"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="del_flag" property="delFlag"/>
     </resultMap>
+    <sql id="MenuColumn">
+
+    </sql>
+    <!--查询用户角色权限-->
+    <select id="findAllMenuPerm" resultType="String">
+         select
+         zm.menu_permissions
+         from
+         zyj_user_role ur
+         LEFT JOIN zyj_role_menu rm  ON ur.role_id=rm.role_id
+         LEFT JOIN zyj_menu zm ON rm.menu_id=zm.menu_id
+         where
+         ur.del_flag=0 and rm.del_flag=0 and zm.del_flag=0
+         and ur.user_id=#{userId}
+    </select>
 
 </mapper>

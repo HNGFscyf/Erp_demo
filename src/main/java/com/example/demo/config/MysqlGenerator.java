@@ -37,7 +37,7 @@ public class MysqlGenerator {
 
     public static void main(String[] args) {
         //生成代码，多张表用逗号分隔
-        generate("zyj","com.example.demo", "zyj_user_role");
+        generate("zyj","com.example.demo", "zyj_role_menu");
     }
 
 

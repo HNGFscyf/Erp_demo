@@ -13,4 +13,17 @@ public interface UserService {
     UserVo pageList(Integer current,Integer size,String userName);
     IPage<User> mybatisPlusPage(Integer pageNo,Integer pageSize,User user);
     void addUser(User user);
+
+    /**
+     * 重置密码
+     * @param user
+     * @return
+     */
+    int restartPassword(User user);
+    /**
+     * 登录时查询用户是否存在
+     * @param loginName
+     * @return
+     */
+    User findByLoginName(String loginName);
 }

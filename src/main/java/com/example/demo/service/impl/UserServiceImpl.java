@@ -56,8 +56,29 @@ public class UserServiceImpl implements UserService {
         //对密码加密
         String md5Password = DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes());
         user.setUserPassword(md5Password);
-        user.setUserStatus("0");
+        user.setUserStatus(0);
         user.setDelFlag(0);
         userMapper.insert(user);
+    }
+    /**
+     * 重置密码
+     * @param user
+     * @return
+     */
+    @Override
+    @Transactional
+    public int restartPassword(User user) {
+       return userMapper.updateById(user);
+    }
+
+    /**
+     * 登录时查询用户是否存在
+     * @param loginName
+     * @return
+     */
+    @Override
+    public User findByLoginName(String loginName) {
+        User byLoginName = userMapper.findByLoginName(loginName);
+        return byLoginName;
     }
 }

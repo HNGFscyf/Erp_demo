@@ -10,4 +10,11 @@ import java.util.List;
 
 public interface UserMapper extends BaseMapper<User> {
     List<User> mybatisPlusPage(Page<User> page,@Param("user") User user);
+
+    /**
+     * 登录时查询用户是否存在
+     * @param loginName
+     * @return
+     */
+    User findByLoginName(@Param("loginName") String loginName);
 }
