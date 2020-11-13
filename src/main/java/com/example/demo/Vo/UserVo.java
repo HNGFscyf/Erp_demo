@@ -9,5 +9,6 @@ public class UserVo {
     private Integer current;
     private Integer size;
     private Long total;
+    private Long pages;
     private List<User> userList;
 }

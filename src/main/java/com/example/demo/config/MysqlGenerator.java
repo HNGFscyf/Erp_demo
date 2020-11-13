@@ -121,6 +121,9 @@ public class MysqlGenerator {
         gc.setOpen(false);
         gc.setServiceName("%sService");
         gc.setFileOverride(true);
+        gc.setSwagger2(true);//加swagger2注解
+        gc.setBaseResultMap(true);// XML ResultMap
+        gc.setBaseColumnList(false);// XML columsList
 
         return gc;
     }

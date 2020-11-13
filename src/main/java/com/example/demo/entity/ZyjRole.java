@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -14,64 +16,45 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zyj
- * @since 2020-11-12
+ * @since 2020-11-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ApiModel(value="ZyjRole对象", description="")
 public class ZyjRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 角色id
-     */
+    @ApiModelProperty(value = "角色id")
     @TableId(value = "role_id", type = IdType.AUTO)
     private Long roleId;
 
-    /**
-     * 角色名称
-     */
+    @ApiModelProperty(value = "角色名称")
     private String roleName;
 
-    /**
-     * 角色描述
-     */
+    @ApiModelProperty(value = "角色描述")
     private String roleDesc;
 
-    /**
-     * 角色类型
-     */
+    @ApiModelProperty(value = "角色类型")
     private Integer roleType;
 
-    /**
-     * 角色排序
-     */
+    @ApiModelProperty(value = "角色排序")
     private Integer roleOrder;
 
-    /**
-     * 创建人
-     */
+    @ApiModelProperty(value = "创建人")
     private Integer createdBy;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createdTime;
 
-    /**
-     * 修改人
-     */
+    @ApiModelProperty(value = "修改人")
     private Integer updateBy;
 
-    /**
-     * 修改时间
-     */
+    @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 
-    /**
-     * 删除标记
-     */
+    @ApiModelProperty(value = "删除标记")
     private Integer delFlag;
 
 

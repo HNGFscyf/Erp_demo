@@ -21,20 +21,35 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="ZyjUserRole对象", description="")
-public class ZyjUserRole implements Serializable {
+@ApiModel(value="ZyjMenu对象", description="")
+public class ZyjMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键id")
-    @TableId(value = "user_role_id", type = IdType.AUTO)
-    private Long userRoleId;
+    @ApiModelProperty(value = "主键di")
+    @TableId(value = "menu_id", type = IdType.AUTO)
+    private Long menuId;
 
-    @ApiModelProperty(value = "用户id")
-    private Integer userId;
+    @ApiModelProperty(value = "菜单名称")
+    private String menuName;
 
-    @ApiModelProperty(value = "角色id")
-    private Integer roleId;
+    @ApiModelProperty(value = "菜单父级id")
+    private Integer menuParentId;
+
+    @ApiModelProperty(value = "菜单路径")
+    private String menuUrl;
+
+    @ApiModelProperty(value = "菜单样式")
+    private String menuCss;
+
+    @ApiModelProperty(value = "shiro权限标志")
+    private String menuPermissions;
+
+    @ApiModelProperty(value = "菜单排序")
+    private Integer sortNo;
+
+    @ApiModelProperty(value = "是否显示 0：显示1：不显示")
+    private Integer isShow;
 
     @ApiModelProperty(value = "创建人")
     private Integer createdBy;
@@ -43,10 +58,10 @@ public class ZyjUserRole implements Serializable {
     private LocalDateTime createdTime;
 
     @ApiModelProperty(value = "修改人")
-    private Integer updateBy;
+    private Integer updatedBy;
 
     @ApiModelProperty(value = "修改时间")
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 
     @ApiModelProperty(value = "删除标识")
     private Integer delFlag;
