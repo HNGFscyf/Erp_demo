@@ -9,6 +9,7 @@
         <result column="menu_parent_id" property="menuParentId"/>
         <result column="menu_level" property="menuLevel"/>
         <result column="menu_url" property="menuUrl"/>
+        <result column="menu_desc" property="menuDesc"/>
         <result column="menu_css" property="menuCss"/>
         <result column="menu_permissions" property="menuPermissions"/>
         <result column="sort_no" property="sortNo"/>
@@ -24,6 +25,7 @@
          a.menu_name as 'menuName',
          a.menu_parent_id as 'menuParentId',
          a.menu_url as 'menuUrl',
+         a.menu_desc as 'menuDesc',
          a.menu_level as 'menuLevel',
          a.menu_css as 'menuCss',
          a.menu_permissions as 'menuPermissions',

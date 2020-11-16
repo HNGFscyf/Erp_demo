@@ -42,7 +42,8 @@ public class ZyjMenu implements Serializable {
     private Integer menuLevel;
     @ApiModelProperty(value = "菜单路径")
     private String menuUrl;
-
+    @ApiModelProperty(value = "菜单描述")
+    private String menuDesc;
     @ApiModelProperty(value = "菜单样式")
     private String menuCss;
 

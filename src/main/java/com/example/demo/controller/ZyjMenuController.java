@@ -50,6 +50,7 @@ public class ZyjMenuController {
                 menu.setMenuCss(root.getMenuCss());
                 menu.setMenuName(root.getMenuName());
                 menu.setMenuLevel(root.getMenuLevel());
+                menu.setMenuDesc(root.getMenuDesc());
                 menu.setMenuParentId(root.getMenuParentId());
                 menu.setMenuUrl(root.getMenuUrl());
                 menu.setSortNo(root.getSortNo());
@@ -86,6 +87,7 @@ public class ZyjMenuController {
                     menu.setMenuCss(data.getMenuCss());
                     menu.setMenuName(data.getMenuName());
                     menu.setMenuLevel(data.getMenuLevel());
+                    menu.setMenuDesc(data.getMenuDesc());
                     menu.setMenuParentId(data.getMenuParentId());
                     menu.setMenuUrl(data.getMenuUrl());
                     menu.setSortNo(data.getSortNo());
