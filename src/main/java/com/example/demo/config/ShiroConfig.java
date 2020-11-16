@@ -35,8 +35,8 @@ public class ShiroConfig {
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列两次，相当于 md5(md5(""));
+        hashedCredentialsMatcher.setHashAlgorithmName("SHA-256");//散列算法:这里使用MD5算法;
+        hashedCredentialsMatcher.setHashIterations(16);//散列的次数，比如散列两次，相当于 md5(md5(""));
         return hashedCredentialsMatcher;
     }
 
@@ -52,11 +52,12 @@ public class ShiroConfig {
         filterMap.put("/swagger**/**", "anon");
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/v2/**", "anon");
-        filterMap.put("/user/restartPassword", "anon");
+        filterMap.put("/login/login", "anon");
+        //filterMap.put("/user/restartPassword", "anon");
         // 对所有用户认证
         filterMap.put("/**", "authc");
         // 登录
-        bean.setLoginUrl("/login/login");
+        //bean.setLoginUrl("/login/login");
         // 首页
         bean.setSuccessUrl("/index");
         // 未授权页面，认证不通过跳转
