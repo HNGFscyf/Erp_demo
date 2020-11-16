@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * @author zyj
  * @since 2020/11/13 9:23
  */
-public class BaseController {
+public  abstract class BaseController {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     protected User getUser() {
@@ -22,5 +22,8 @@ public class BaseController {
 
     protected String getLoginName() {
         return getUser().getLoginName();
+    }
+    protected Integer getGroupId() {
+        return getUser().getUserGroupid();
     }
 }
