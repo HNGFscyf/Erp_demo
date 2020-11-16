@@ -15,6 +15,7 @@
         <typeAlias alias="BigDecimal" type="java.math.BigDecimal"/>
 
         <package name="com.example.demo.entity"/>
+        <package name="com.example.demo.entityDto"/>
     </typeAliases>
 
 </configuration>

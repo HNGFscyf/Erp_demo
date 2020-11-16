@@ -7,6 +7,7 @@
         <id column="menu_id" property="menuId"/>
         <result column="menu_name" property="menuName"/>
         <result column="menu_parent_id" property="menuParentId"/>
+        <result column="menu_level" property="menuLevel"/>
         <result column="menu_url" property="menuUrl"/>
         <result column="menu_css" property="menuCss"/>
         <result column="menu_permissions" property="menuPermissions"/>
@@ -19,7 +20,14 @@
         <result column="del_flag" property="delFlag"/>
     </resultMap>
     <sql id="MenuColumn">
-
+         a.menu_id as 'menuId',
+         a.menu_name as 'menuName',
+         a.menu_parent_id as 'menuParentId',
+         a.menu_url as 'menuUrl',
+         a.menu_level as 'menuLevel',
+         a.menu_css as 'menuCss',
+         a.menu_permissions as 'menuPermissions',
+         a.sort_no as 'sortNo'
     </sql>
     <!--查询用户角色权限-->
     <select id="findAllMenuPerm" resultType="String">
@@ -33,5 +41,17 @@
          ur.del_flag=0 and rm.del_flag=0 and zm.del_flag=0
          and ur.user_id=#{userId}
     </select>
-
+    <!--查询菜单列表-->
+    <select id="findAllMenu" resultType="com.example.demo.entityDto.ZyjMenuDto">
+        select
+        <include refid="MenuColumn"/>
+        from zyj_menu a
+        <where>
+            a.del_flag=0
+            <if test="keyword != ''and keyword !=null">
+                and a.menu_name like "%"#{keyword}"%"
+            </if>
+        </where>
+            order by a.sort_no asc
+    </select>
 </mapper>

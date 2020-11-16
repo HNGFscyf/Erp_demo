@@ -64,8 +64,8 @@ public class LoginController extends BaseController {
             //token信息
             subject = SecurityUtils.getSubject();
             Serializable tokenId = subject.getSession().getId();
-            /*rep.addHeader("Access-Control-Expose-Headers", "authToken");
-            rep.addHeader("authToken", JSON.toJSONString(tokenId).replaceAll("\"",""));*/
+            rep.addHeader("Access-Control-Expose-Headers", "authToken");
+            rep.addHeader("authToken", JSON.toJSONString(tokenId).replaceAll("\"",""));
             return R.ok().put("data", user).put("tokenId",tokenId);
         } catch (UnknownAccountException e) {
             return R.error(e.getMessage());

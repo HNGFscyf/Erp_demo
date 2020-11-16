@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.ZyjMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.demo.entityDto.ZyjMenuDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,4 +21,11 @@ public interface ZyjMenuMapper extends BaseMapper<ZyjMenu> {
      * @return
      */
     List<String> findAllMenuPerm(@Param("userId") Long userId);
+
+    /**
+     * 查询菜单列表
+     * @param keyword
+     * @return
+     */
+    List<ZyjMenuDto> findAllMenu(@Param("keyword") String keyword);
 }

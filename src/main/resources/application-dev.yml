@@ -8,7 +8,15 @@ spring:
     password: aaaaaa
     url: jdbc:mysql://192.168.193.135:3306/zyj_demo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver #直接打mysql会有提示
-
+  redis:
+    host: 127.0.0.1
+    # host: 127.0.0.1
+    password: aaaaaa
+    port: 6379
+    timeout: 3000
+    pool:
+      max-active: 1000
+      max-idle: 50
 
 #mybatisPlu
 mybatis-plus:
@@ -34,4 +42,3 @@ mybatis-plus:
 
     swagger:
       enabled: true #swagger2自定义开关:false关闭
-

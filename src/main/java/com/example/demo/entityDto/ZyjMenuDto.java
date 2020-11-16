@@ -1,32 +1,18 @@
-package com.example.demo.entity;
+package com.example.demo.entityDto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author zyj
- * @since 2020-11-13
- */
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@ApiModel(value="ZyjMenu对象", description="")
-@TableName("zyj_menu")
-public class ZyjMenu implements Serializable {
-
+@ApiModel("菜单表")
+public class ZyjMenuDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键di")
@@ -69,6 +55,6 @@ public class ZyjMenu implements Serializable {
 
     @ApiModelProperty(value = "删除标识")
     private Integer delFlag;
-
-
+    @ApiModelProperty("子级数据")
+    private List<ZyjMenuDto> children;
 }
