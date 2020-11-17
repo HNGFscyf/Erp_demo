@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.Vo.UserVo;
 import com.example.demo.common.Assert;
+import com.example.demo.common.BaseController;
 import com.example.demo.common.R;
 import com.example.demo.common.ShiroUtils;
 import com.example.demo.common.annotation.RepeatSubmit;
@@ -21,11 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 @Api(value = "用户管理",tags = {"用户管理"})
 @RestController
 @RequestMapping("user")
-public class UserController {
+public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
@@ -90,6 +92,8 @@ public class UserController {
             if (null==user.getUserPassword()){
                 user.setUserPassword(Constant.password);
             }
+            user.setCreatedBy(Integer.valueOf(getUserId().toString()));
+            user.setCreatedTime(new Date());
             userService.addUser(user);
             return R.ok("添加成功");
         } catch (Exception e) {

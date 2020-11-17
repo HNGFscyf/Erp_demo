@@ -73,6 +73,8 @@ public class UserServiceImpl implements UserService {
         ZyjUserRole zyjUserRole=new ZyjUserRole();
         zyjUserRole.setRoleId(Integer.valueOf(user.getRoleId().toString()));
         zyjUserRole.setUserId(Integer.valueOf(userId.toString()));
+        zyjUserRole.setCreatedBy(user.getCreatedBy());
+        zyjUserRole.setCreatedTime(user.getCreatedTime());
         zyjUserRole.setDelFlag(0);
         zyjUserRoleMapper.insert(zyjUserRole);
     }

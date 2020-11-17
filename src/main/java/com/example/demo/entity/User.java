@@ -8,10 +8,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+
 import java.io.Serializable;
+
 
 @Data
 @NoArgsConstructor
@@ -56,6 +58,18 @@ public class User implements Serializable {
      */
     @ApiModelProperty("备用字段")
     private String backup;
+    @ApiModelProperty(value = "创建人")
+    private Integer createdBy;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createdTime;
+
+    @ApiModelProperty(value = "修改人")
+    private Integer updatedBy;
+
+    @ApiModelProperty(value = "修改时间")
+    private Date updatedTime;
+
     @ApiModelProperty("删除标识")
     private Integer delFlag;
 }
