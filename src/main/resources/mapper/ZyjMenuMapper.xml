@@ -56,4 +56,20 @@
         </where>
             order by a.sort_no asc
     </select>
+    <!--根据登录人获取用户权限-->
+    <select id="findUserMenuList" resultType="com.example.demo.entityDto.ZyjMenuDto">
+        select
+        <include refid="MenuColumn"/>
+        from
+        zyj_user_role zur LEFT JOIN zyj_role_menu zrm on zur.role_id=zrm.role_id
+        LEFT JOIN zyj_menu a ON zrm.menu_id= a.menu_id
+        WHERE zur.user_id=#{userId} and a.del_flag=0
+        <if test ="menuLevel!=null and menuLevel!=''">
+            and a.menu_level in (${menuLevel})
+        </if>
+        <if test ="parentId!=null and parentId!=''">
+            and a.menu_parent_id  =#{parentId}
+        </if>
+        order by a.menu_parent_id,a.sort_no
+    </select>
 </mapper>

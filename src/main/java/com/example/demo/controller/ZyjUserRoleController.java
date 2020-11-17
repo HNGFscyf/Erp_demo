@@ -8,6 +8,7 @@ import com.example.demo.common.R;
 import com.example.demo.entity.ZyjRoleMenu;
 import com.example.demo.service.ZyjRoleMenuService;
 import com.example.demo.service.ZyjUserRoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +29,7 @@ import java.util.List;
  * @author zyj
  * @since 2020-11-12
  */
+@Api(value = "角色权限管理",tags = {"角色权限管理"})
 @RestController
 @RequestMapping("/zyjUserRole")
 public class ZyjUserRoleController {

@@ -47,4 +47,16 @@ public class ZyjMenuServiceImpl extends ServiceImpl<ZyjMenuMapper, ZyjMenu> impl
     public List<ZyjMenuDto> findAllMenu(String keyword) {
         return zyjMenuMapper.findAllMenu(keyword);
     }
+
+    /**
+     * 根据登录人获取用户权限
+     * @param userId
+     * @param menuLevel
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<ZyjMenuDto> findUserMenuList(Long userId, String menuLevel, Integer parentId) {
+        return zyjMenuMapper.findUserMenuList(userId,menuLevel,parentId);
+    }
 }

@@ -38,7 +38,7 @@ public class User implements Serializable {
     private String userSalt;
     @ApiModelProperty("用户手机号")
     //@Pattern(regexp = "^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$", message="账号请输入11位手机号") // 手机号
-    private Integer userMobile;
+    private String userMobile;
     @ApiModelProperty("账号状态")
     @NotNull(message = "账号状态不能为空")
     private Integer userStatus;

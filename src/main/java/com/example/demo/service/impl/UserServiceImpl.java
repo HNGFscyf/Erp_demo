@@ -4,21 +4,26 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.Vo.UserVo;
+import com.example.demo.common.ShiroUtils;
 import com.example.demo.entity.User;
+import com.example.demo.entity.ZyjUserRole;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.mapper.ZyjUserRoleMapper;
 import com.example.demo.service.UserService;
+import com.example.demo.util.Constant;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
-import javax.swing.text.html.parser.Entity;
-import java.sql.Wrapper;
 import java.util.List;
 @Service("UserService")
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ZyjUserRoleMapper zyjUserRoleMapper;
     @Override
     public List<User> findList() {
         return userMapper.selectList(null);
@@ -55,11 +60,21 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public void addUser(User user) {
         //对密码加密
-        String md5Password = DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes());
-        user.setUserPassword(md5Password);
+        //sha256加密
+        String salt = RandomStringUtils.randomAlphanumeric(20);
+        //新密码
+        String newPassword = ShiroUtils.sha256(user.getUserPassword(), salt);
+        user.setUserPassword(newPassword);
+        user.setUserSalt(salt);
         user.setUserStatus(0);
         user.setDelFlag(0);
         userMapper.insert(user);
+        Long userId = user.getUserId();
+        ZyjUserRole zyjUserRole=new ZyjUserRole();
+        zyjUserRole.setRoleId(Integer.valueOf(user.getRoleId().toString()));
+        zyjUserRole.setUserId(Integer.valueOf(userId.toString()));
+        zyjUserRole.setDelFlag(0);
+        zyjUserRoleMapper.insert(zyjUserRole);
     }
     /**
      * 重置密码

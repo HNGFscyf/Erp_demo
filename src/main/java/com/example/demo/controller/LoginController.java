@@ -32,14 +32,13 @@ public class LoginController extends BaseController {
     @ApiOperation(value="登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "登录名", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "password", value = "登录密码", required = true, paramType = "query", dataType = "String")
-
+            @ApiImplicitParam(name = "passWord", value = "登录密码", required = true, paramType = "query", dataType = "String")
     })
-    public R login(String username, String password, HttpServletResponse rep){
+    public R login(String userName, String passWord, HttpServletResponse rep){
 
         try {
-            Assert.isBlank(username,"用户名不能为空");
-            Assert.isBlank(password,"密码不能为空");
+            Assert.isBlank(userName,"用户名不能为空");
+            Assert.isBlank(passWord,"密码不能为空");
             Subject subject = ShiroUtils.getSubject();
             //用户登录之前，先清空之前的的授权缓存记录
             PrincipalCollection principals =  subject.getPrincipals();
@@ -47,7 +46,7 @@ public class LoginController extends BaseController {
                 userRealm.clearCachedAuthorizationInfo(principals);
                 userRealm.clearCachedAuthenticationInfo(principals);
             }
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            UsernamePasswordToken token = new UsernamePasswordToken(userName, passWord);
             subject.login(token);
             User user = ShiroUtils.getUser();
             //如果当前登录用户不是超级管理员，做以下判断

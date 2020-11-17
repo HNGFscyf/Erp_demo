@@ -27,4 +27,12 @@ public interface ZyjMenuService extends IService<ZyjMenu> {
      * @return
      */
     List<ZyjMenuDto> findAllMenu(String keyword);
+    /**
+     * 根据登录人获取用户权限
+     * @param userId
+     * @param menuLevel
+     * @param parentId
+     * @return
+     */
+    List<ZyjMenuDto> findUserMenuList(Long userId,String menuLevel,Integer parentId);
 }

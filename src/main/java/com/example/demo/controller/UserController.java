@@ -70,23 +70,26 @@ public class UserController {
      */
     @RequestMapping(value = "/addUser",method = RequestMethod.POST)
     @ApiOperation(value = "添加用户",response = User.class)
-    @ApiImplicitParams({
+    /*@ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "loginName", value = "登录名称", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "userSex", value = "性别 0 ：男 1：女", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "userPassword", value = "登录密码", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "userPassword", value = "登录密码", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "userMobile", value = "手机号", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "groupId", value = "部门Id", required = true, paramType = "query", dataType = "int")
 
-    })
+    })*/
     @RepeatSubmit
-    public R addUser(@RequestBody User user)  {
+    public R addUser(@RequestBody(required = false) User user)  {
         try {
             Assert.isBlank(user.getLoginName(),"登录名不能为空");
             Assert.isBlank(user.getUserName(),"用户名不能为空");
-            Assert.isBlank(user.getUserPassword(),"密码不能为空");
+            //Assert.isBlank(user.getUserPassword(),"密码不能为空");
             Assert.isBlank(user.getUserSex(),"性别不能为空");
+            if (null==user.getUserPassword()){
+                user.setUserPassword(Constant.password);
+            }
             userService.addUser(user);
             return R.ok("添加成功");
         } catch (Exception e) {

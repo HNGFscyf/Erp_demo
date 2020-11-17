@@ -28,4 +28,13 @@ public interface ZyjMenuMapper extends BaseMapper<ZyjMenu> {
      * @return
      */
     List<ZyjMenuDto> findAllMenu(@Param("keyword") String keyword);
+
+    /**
+     * 根据登录人获取用户权限
+     * @param userId
+     * @param menuLevel
+     * @param parentId
+     * @return
+     */
+    List<ZyjMenuDto> findUserMenuList(@Param("userId") Long userId,@Param("menuLevel") String menuLevel,@Param("parentId") Integer parentId);
 }

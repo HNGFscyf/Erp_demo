@@ -5,6 +5,7 @@ import com.example.demo.common.R;
 import com.example.demo.entityDto.ZyjMenuDto;
 import com.example.demo.service.ZyjMenuService;
 import com.example.demo.util.RedisUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.*;
  * @author zyj
  * @since 2020-11-13
  */
+@Api(value = "菜单管理",tags = {"菜单管理"})
 @RestController
 @RequestMapping("/zyjMenu")
 public class ZyjMenuController {

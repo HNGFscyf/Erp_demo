@@ -6,6 +6,7 @@ import com.example.demo.common.R;
 import com.example.demo.entity.User;
 import com.example.demo.entity.ZyjRole;
 import com.example.demo.service.ZyjRoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author zyj
  * @since 2020-11-12
  */
+@Api(value = "角色管理",tags = {"角色管理"})
 @RestController
 @RequestMapping("/zyjRole")
 public class ZyjRoleController {
