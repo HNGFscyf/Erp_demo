@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         User user=new User();
         user.setUserName(userName);
+        user.setDelFlag(0);
         queryWrapper.setEntity(user);
         userMapper.selectPage(page, queryWrapper);
         userVo.setCurrent(current);

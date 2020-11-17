@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -17,32 +16,37 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zyj
- * @since 2020-11-13
+ * @since 2020-11-17
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="ZyjRole对象", description="")
-public class ZyjRole implements Serializable {
+@ApiModel(value="ZyjGroup对象", description="")
+public class ZyjGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "角色id")
-    @TableId(value = "role_id", type = IdType.AUTO)
-    @TableField(exist = false)
-    private Long roleId;
+    @ApiModelProperty(value = "主键id")
+    @TableId(value = "group_id", type = IdType.AUTO)
+    private Long groupId;
 
-    @ApiModelProperty(value = "角色名称")
-    private String roleName;
+    @ApiModelProperty(value = "部门名称")
+    private String groupName;
 
-    @ApiModelProperty(value = "角色描述")
-    private String roleDesc;
+    @ApiModelProperty(value = "部门父级id")
+    private Integer groupParentId;
 
-    @ApiModelProperty(value = "角色类型")
-    private Integer roleType;
+    @ApiModelProperty(value = "部门类型")
+    private String groupType;
 
-    @ApiModelProperty(value = "角色排序")
-    private Integer roleOrder;
+    @ApiModelProperty(value = "部门排序")
+    private Integer groupOrder;
+
+    private String back1;
+
+    private String back2;
+
+    private String back3;
 
     @ApiModelProperty(value = "创建人")
     private Integer createdBy;
@@ -51,12 +55,12 @@ public class ZyjRole implements Serializable {
     private LocalDateTime createdTime;
 
     @ApiModelProperty(value = "修改人")
-    private Integer updateBy;
+    private Integer updatedBy;
 
     @ApiModelProperty(value = "修改时间")
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 
-    @ApiModelProperty(value = "删除标记")
+    @ApiModelProperty(value = "删除标识")
     private Integer delFlag;
 
 

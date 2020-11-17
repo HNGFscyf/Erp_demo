@@ -7,6 +7,7 @@ import com.example.demo.Vo.UserVo;
 import com.example.demo.common.Assert;
 import com.example.demo.common.R;
 import com.example.demo.common.ShiroUtils;
+import com.example.demo.common.annotation.RepeatSubmit;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import com.example.demo.util.Constant;
@@ -74,10 +75,13 @@ public class UserController {
             @ApiImplicitParam(name = "loginName", value = "登录名称", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "userSex", value = "性别 0 ：男 1：女", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "userPassword", value = "登录密码", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "userMobile", value = "手机号", required = true, paramType = "query", dataType = "int")
+            @ApiImplicitParam(name = "userMobile", value = "手机号", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "groupId", value = "部门Id", required = true, paramType = "query", dataType = "int")
 
     })
-    public R addUser(User user)  {
+    @RepeatSubmit
+    public R addUser(@RequestBody User user)  {
         try {
             Assert.isBlank(user.getLoginName(),"登录名不能为空");
             Assert.isBlank(user.getUserName(),"用户名不能为空");
