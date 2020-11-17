@@ -1,8 +1,6 @@
 package com.example.demo.common;
 
-import com.example.demo.entity.ZyjMenu;
 import com.example.demo.entityDto.ZyjMenuDto;
-import com.example.demo.service.UserService;
 import com.example.demo.service.ZyjMenuService;
 import com.example.demo.util.Constant;
 import io.swagger.annotations.Api;
