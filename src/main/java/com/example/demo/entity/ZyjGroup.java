@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -52,13 +54,13 @@ public class ZyjGroup implements Serializable {
     private Integer createdBy;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createdTime;
+    private Date createdTime;
 
     @ApiModelProperty(value = "修改人")
     private Integer updatedBy;
 
     @ApiModelProperty(value = "修改时间")
-    private LocalDateTime updatedTime;
+    private Date updatedTime;
 
     @ApiModelProperty(value = "删除标识")
     private Integer delFlag;
