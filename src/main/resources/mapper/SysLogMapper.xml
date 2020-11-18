@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.SysLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.SysLogs">
+        <id column="sys_log_id" property="sysLogId" />
+        <result column="sys_log_type_id" property="sysLogTypeId" />
+        <result column="sys_log_desc" property="sysLogDesc" />
+        <result column="sys_log_param1" property="sysLogParam1" />
+        <result column="sys_log_param2" property="sysLogParam2" />
+        <result column="sys_log_time" property="sysLogTime" />
+        <result column="sys_log_method" property="sysLogMethod" />
+        <result column="sys_log_ip" property="sysLogIp" />
+        <result column="sys_log_userid" property="sysLogUserid" />
+        <result column="sys_log_exetime" property="sysLogExetime" />
+    </resultMap>
+
+</mapper>

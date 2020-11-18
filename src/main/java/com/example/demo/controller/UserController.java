@@ -9,6 +9,7 @@ import com.example.demo.common.BaseController;
 import com.example.demo.common.R;
 import com.example.demo.common.ShiroUtils;
 import com.example.demo.common.annotation.RepeatSubmit;
+import com.example.demo.common.annotation.SysLog;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import com.example.demo.util.Constant;
@@ -83,6 +84,7 @@ public class UserController extends BaseController {
 
     })*/
     @RepeatSubmit
+    @SysLog("用户添加")
     public R addUser(@RequestBody(required = false) User user)  {
         try {
             Assert.isBlank(user.getLoginName(),"登录名不能为空");
@@ -108,6 +110,7 @@ public class UserController extends BaseController {
      */
     @PostMapping("/restartPassword")
     @ApiOperation(value = "重置密码")
+    @SysLog("重置密码")
     @ApiImplicitParam(name = "userId", value = "用户id", required = true, paramType = "query", dataType = "Long")
     public R restartPassword(Long userId){
         Assert.isNull(userId, "用户ID不能为空");

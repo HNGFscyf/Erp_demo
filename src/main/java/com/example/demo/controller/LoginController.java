@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.demo.common.*;
+import com.example.demo.common.annotation.SysLog;
 import com.example.demo.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,6 +35,7 @@ public class LoginController extends BaseController {
             @ApiImplicitParam(name = "userName", value = "登录名", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "passWord", value = "登录密码", required = true, paramType = "query", dataType = "String")
     })
+    @SysLog("用户登录")
     public R login(String userName, String passWord, HttpServletResponse rep){
 
         try {
