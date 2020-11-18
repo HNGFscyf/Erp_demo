@@ -1,21 +1,29 @@
 package com.example.demo.common;
 
+import com.example.demo.entity.ZyjCommomAttachment;
 import com.example.demo.entityDto.ZyjMenuDto;
+import com.example.demo.service.ZyjCommomAttachmentService;
 import com.example.demo.service.ZyjMenuService;
+import com.example.demo.util.CastUtil;
 import com.example.demo.util.Constant;
+import com.example.demo.util.HttpContextUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Api(value = "公用接口",tags = {"公用接口"})
 @RestController
@@ -23,6 +31,10 @@ import java.util.Map;
 public class CommonController extends BaseController{
    @Autowired
    private ZyjMenuService zyjMenuService;
+   @Autowired
+   private ZyjCommomAttachmentService zyjCommomAttachmentService;
+   @Value("${zyj.uploaddir}")
+   private String uploadDir;
 
     /**
      * 根据登录人获取用户权限
@@ -109,5 +121,65 @@ public class CommonController extends BaseController{
             });
         }
         return children;
+    }
+    /**
+     * 查询静态资源路径
+     * @return
+     */
+    @GetMapping("/getStaticPath")
+    @ApiOperation(value="查询静态资源路径")
+    public R getStaticPath(){
+        HttpServletRequest req = HttpContextUtils.getHttpServletRequest();
+        String path = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + Constant.getfile;
+        return R.ok().put("data", path);
+    }
+    /**
+     * 上传文件
+     * zyj
+     * 2020/11/18
+     * @param file
+     * @param req
+     * @return
+     * @throws IOException
+     */
+    @ApiOperation(value = "上传文件", notes="上传文件")
+    @PostMapping("/import")
+    public R importData(MultipartFile file, HttpServletRequest req) throws IOException {
+        // 获取文件上传的当前目录路径
+        String format = getCurrentDateStr();
+        // 根据文件上传的当前目录路径 获取到目录对应的文件夹
+        File folder = initUploadFolder(format) ;
+        String oldName = file.getOriginalFilename();
+        long size = file.getSize();
+        String extendName = getCurrentFileExtendName(oldName);
+        String newName = UUID.randomUUID().toString() + "." + extendName;
+        file.transferTo(new File(folder,newName));
+        String allUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/source" + format + newName;
+        String url=format + newName;
+        ZyjCommomAttachment commonAttachment = new ZyjCommomAttachment();
+        commonAttachment.addPrefixInit(CastUtil.castInt(getUserId().toString()));
+        commonAttachment.setAttachmentName(oldName);
+        commonAttachment.setExtendName(extendName);
+        commonAttachment.setSavePath(url);
+        commonAttachment.setFileSize(CastUtil.castInt(size));
+        zyjCommomAttachmentService.save(commonAttachment);
+
+        return R.ok().put("data", url).put("attachmentId",commonAttachment.getAttachmentId()).put("attachmentName",oldName).put("extendName",extendName).put("size",size).put("allUrl",allUrl);
+
+    }
+    private String getCurrentDateStr(){
+        return new SimpleDateFormat("/yyyy/MM/dd/").format(new Date());
+    }
+
+    private File initUploadFolder(String format){
+        String savePath = uploadDir + format;
+        File folder = new File(savePath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        return folder;
+    }
+    private String getCurrentFileExtendName (String fileSourceName){
+        return fileSourceName.substring(fileSourceName .lastIndexOf(".")+1);
     }
 }

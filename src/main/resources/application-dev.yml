@@ -42,3 +42,6 @@ mybatis-plus:
 
     swagger:
       enabled: true #swagger2自定义开关:false关闭
+zyj:
+  uploaddir: /D:/upload/ #文件上传路径
+  accessPath: /source/**  #文件访问路径

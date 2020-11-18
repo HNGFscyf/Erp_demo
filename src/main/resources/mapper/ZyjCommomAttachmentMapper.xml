@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ZyjCommomAttachmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.ZyjCommomAttachment">
+        <id column="attachment_id" property="attachmentId" />
+        <result column="owner_id" property="ownerId" />
+        <result column="owner_type" property="ownerType" />
+        <result column="attachment_name" property="attachmentName" />
+        <result column="extend_name" property="extendName" />
+        <result column="save_path" property="savePath" />
+        <result column="thumbnail_url" property="thumbnailUrl" />
+        <result column="file_size" property="fileSize" />
+        <result column="mime_type" property="mimeType" />
+        <result column="image_width" property="imageWidth" />
+        <result column="image_height" property="imageHeight" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+</mapper>

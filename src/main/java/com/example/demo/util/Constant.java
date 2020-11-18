@@ -8,6 +8,8 @@ public class Constant {
     public static final int SUPER_ADMIN = 1;
     /*初始化密码*/
     public static final String password= "000000";
+    /*文件访问路径*/
+    public static final String getfile="/source";
     /**
      * 菜单类型
      */

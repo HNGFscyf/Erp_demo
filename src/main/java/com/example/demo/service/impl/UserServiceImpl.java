@@ -12,6 +12,7 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.mapper.ZyjGroupMapper;
 import com.example.demo.mapper.ZyjUserRoleMapper;
 import com.example.demo.service.UserService;
+import com.example.demo.util.CastUtil;
 import com.example.demo.util.Constant;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +39,15 @@ public class UserServiceImpl implements UserService {
         UserVo userVo=new UserVo();
         IPage page=new Page<>(current,size);
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-        String userGroupIds="";
         List<ZyjGroup> treeGroup = groupMapper.getTreeGroup(groupId);
-        for (ZyjGroup zyjGroup : treeGroup) {
-           userGroupIds+=zyjGroup.getGroupId().toString()+",";
+        Integer[] integers=new Integer[treeGroup.size()];
+        for (int i = 0; i < treeGroup.size(); i++) {
+            Integer i1 = CastUtil.castInt(treeGroup.get(i).getGroupId().toString());
+            integers[i]=i1;
         }
-        String  newString = userGroupIds.substring(0,userGroupIds.length()-1);
-        queryWrapper.in("user_groupid",newString);
-        queryWrapper.lambda().eq(false,User::getUserName,keyWord).eq(User::getDelFlag,Constant.DEL_FLAG_0);
+        queryWrapper.in("user_groupid",integers);
+        queryWrapper.lambda().eq(User::getDelFlag,Constant.DEL_FLAG_0);
+        queryWrapper.like(true,"user_name",keyWord).or().like(true,"user_mobile",keyWord).or().like(true,"login_name",keyWord);
         userMapper.selectPage(page,queryWrapper);
         userVo.setCurrent(current);
         userVo.setSize(size);
