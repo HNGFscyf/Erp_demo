@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.Vo.UserVo;
 import com.example.demo.common.ShiroUtils;
 import com.example.demo.entity.User;
+import com.example.demo.entity.ZyjGroup;
 import com.example.demo.entity.ZyjUserRole;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.mapper.ZyjGroupMapper;
 import com.example.demo.mapper.ZyjUserRoleMapper;
 import com.example.demo.service.UserService;
 import com.example.demo.util.Constant;
@@ -24,21 +26,27 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private ZyjUserRoleMapper zyjUserRoleMapper;
+    @Autowired
+    private ZyjGroupMapper groupMapper;
     @Override
     public List<User> findList() {
         return userMapper.selectList(null);
     }
 
     @Override
-    public UserVo pageList(Integer current, Integer size,String userName) {
+    public UserVo pageList(Integer current, Integer size,String keyWord,Integer groupId) {
         UserVo userVo=new UserVo();
         IPage page=new Page<>(current,size);
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-        User user=new User();
-        user.setUserName(userName);
-        user.setDelFlag(0);
-        queryWrapper.setEntity(user);
-        userMapper.selectPage(page, queryWrapper);
+        String userGroupIds="";
+        List<ZyjGroup> treeGroup = groupMapper.getTreeGroup(groupId);
+        for (ZyjGroup zyjGroup : treeGroup) {
+           userGroupIds+=zyjGroup.getGroupId().toString()+",";
+        }
+        String  newString = userGroupIds.substring(0,userGroupIds.length()-1);
+        queryWrapper.in("user_groupid",newString);
+        queryWrapper.lambda().eq(false,User::getUserName,keyWord).eq(User::getDelFlag,Constant.DEL_FLAG_0);
+        userMapper.selectPage(page,queryWrapper);
         userVo.setCurrent(current);
         userVo.setSize(size);
         userVo.setTotal(page.getTotal());

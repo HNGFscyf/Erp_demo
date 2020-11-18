@@ -18,5 +18,23 @@
         <result column="updated_time" property="updatedTime" />
         <result column="del_flag" property="delFlag" />
     </resultMap>
-
+    <sql id="groupColumns">
+        a.group_id as 'groupId',
+        a.group_name as 'groupName',
+        a.group_parent_id as 'groupParentId',
+        a.group_type as 'groupType',
+        a.group_order as 'groupOrder'
+    </sql>
+    <!--查询当前用户的部门及下级部门-->
+    <select id="getTreeGroup" resultType="ZyjGroup">
+            SELECT
+            <include refid="groupColumns"/>
+            FROM zyj_group a
+            <where>
+                a.del_flag=0
+                <if test="groupId !=null">
+                    and (a.group_id=#{groupId} or a.group_parent_id=#{groupId})
+                </if>
+            </where>
+    </select>
 </mapper>

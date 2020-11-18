@@ -42,17 +42,18 @@ public class UserController extends BaseController {
      * 常用分页方法
      * @param current
      * @param size
-     * @param userName
+     * @param keyWord
      * @return
      */
     @ApiOperation(value = "分页查询用户列表",response = User.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "第几页", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "size", value = "一页几条", required = true, paramType = "query", dataType = "int")
+            @ApiImplicitParam(name = "size", value = "一页几条", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "keyWord", value = "关键词", required = true, paramType = "query", dataType = "String")
     })
     @GetMapping("/pageList")
-    public R pageList(Integer current,Integer size,String userName){
-        UserVo userVo = userService.pageList(current, size,userName);
+    public R pageList(Integer current,Integer size,String keyWord){
+        UserVo userVo = userService.pageList(current, size,keyWord,getGroupId());
         return R.ok().put("data",userVo);
     }
    /* @GetMapping("/mybatisPageList")

@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +44,13 @@ public class ZyjGroupController extends BaseController {
       @GetMapping("/getTreeGroup")
       @ApiOperation(value = "查询部门树",response = ZyjGroup.class)
       public R getTreeGroup() throws Exception {
-         List<ZyjGroup> list = zyjGroupService.list(null);
+          int i = CastUtil.castInt(getUserId());
+          List<ZyjGroup> list;
+          if (Constant.SUPER_ADMIN==i){
+              list = zyjGroupService.getTreeGroup(null);
+          }else {
+              list = zyjGroupService.getTreeGroup(getGroupId());
+          }
           List<TreeUtils> treeList = TreeUtils.getTreeList(list, "groupId", "groupParentId", "groupName");
           return R.ok()
          .put("data",treeList);

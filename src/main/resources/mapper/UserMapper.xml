@@ -16,4 +16,36 @@
         zyj_user zu LEFT JOIN zyj_user_role ur ON zu.user_id=ur.user_id
         where zu.login_name=#{loginName} and zu.del_flag=0
     </select>
+    <!--查询该用户部门及下级部门的账号-->
+    <select id="pageList" resultType="com.example.demo.Vo.UserVo">
+        select
+        a.user_id as 'userId',
+        a.user_name as 'userName',
+        a.login_name as 'loginName',
+        CASE a.user_sex
+        WHEN 0 THEN "男"
+        WHEN 1 THEN "女"
+        END gender,
+        a.user_mobile as 'userMobile',
+        CASE a.user_status
+        WHEN 0 THEN "启用"
+        WHEN 1 THEN "禁用"
+        END status,
+        b.group_name as 'groupName'
+        from zyj_user a LEFT JOIN zyj_group b on a.user_groupid=b.group_id
+        <where>
+            a.del_flag=0 and b.del_flag=0
+            <if test="userGroupIds !=null and userGroupIds != ''">
+                and a.user_groupid in (${userGroupIds})
+            </if>
+            <if test="userName != null and userName != ''">
+                and
+                (a.user_name like "%"#{userName}"%"
+                or a.user_mobile like "%"#{userName}"%"
+                or a.login_name like "%"#{userName}"%"
+                )
+            </if>
+        </where>
+
+    </select>
 </mapper>
