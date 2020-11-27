@@ -44,7 +44,7 @@ public class ZyjUserRoleController {
                  * @param menuIds
                  * @return
                  */
-            @PostMapping("/addrRoleMenu")
+            /*@PostMapping("/addrRoleMenu")
             @ApiOperation(value = "对该角色添加菜单")
             @ApiImplicitParams({
                     @ApiImplicitParam(name = "roleId", value = "角色id", required = true, paramType = "query", dataType = "int"),
@@ -80,6 +80,6 @@ public class ZyjUserRoleController {
                     zyjRoleMenuService.saveBatch(zyjRoleMenus,roleId);
                 }
                 return R.ok("添加成功");
-            }
+            }*/
 }
 
