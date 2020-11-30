@@ -75,7 +75,7 @@ public class ZyjRoleMenuController extends BaseController {
                     i[k] = Integer.parseInt(ins[k].toString());
                  }
             QueryWrapper<ZyjRoleMenu> queryWrapper1=new QueryWrapper<>();
-             queryWrapper1.in("menu_id",i);
+             queryWrapper1.lambda().in(ZyjRoleMenu::getMenuId,i);
              queryWrapper1.lambda().eq(ZyjRoleMenu::getRoleId,roleId);
              queryWrapper1.lambda().eq(ZyjRoleMenu::getDelFlag,Constant.DEL_FLAG_0);
             List<ZyjRoleMenu> list4 = zyjRoleMenuService.list(queryWrapper1);
