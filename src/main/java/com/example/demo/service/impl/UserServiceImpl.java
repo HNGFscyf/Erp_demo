@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 @Service("UserService")
@@ -38,16 +39,24 @@ public class UserServiceImpl implements UserService {
     public UserVo pageList(Integer current, Integer size,String keyWord,Integer groupId) {
         UserVo userVo=new UserVo();
         IPage page=new Page<>(current,size);
-        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         List<ZyjGroup> treeGroup = groupMapper.getTreeGroup(groupId);
         Integer[] integers=new Integer[treeGroup.size()];
         for (int i = 0; i < treeGroup.size(); i++) {
             Integer i1 = CastUtil.castInt(treeGroup.get(i).getGroupId().toString());
             integers[i]=i1;
         }
-        queryWrapper.in("user_groupid",integers);
-        queryWrapper.lambda().eq(User::getDelFlag,Constant.DEL_FLAG_0);
-        queryWrapper.like(true,"user_name",keyWord).or().like(true,"user_mobile",keyWord).or().like(true,"login_name",keyWord);
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda()
+                .in(User::getUserGroupid,integers)
+                .eq(User::getDelFlag,Constant.DEL_FLAG_0)
+                .like(!StringUtils.isEmpty(keyWord),User::getUserName,keyWord)
+                .or()
+                .like(!StringUtils.isEmpty(keyWord),User::getUserMobile,keyWord)
+                .or()
+                .like(!StringUtils.isEmpty(keyWord),User::getLoginName,keyWord);
+        //queryWrapper.in("user_groupid",integers);
+        //queryWrapper.lambda().eq(User::getDelFlag,Constant.DEL_FLAG_0);
+        //queryWrapper.like(!StringUtils.isEmpty(keyWord),"user_name",keyWord).or().like(true,"user_mobile",keyWord).or().like(true,"login_name",keyWord);
         userMapper.selectPage(page,queryWrapper);
         userVo.setCurrent(current);
         userVo.setSize(size);

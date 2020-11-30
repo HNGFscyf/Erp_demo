@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -48,13 +50,13 @@ public class ZyjRole implements Serializable {
     private Integer createdBy;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createdTime;
+    private Date createdTime;
 
     @ApiModelProperty(value = "修改人")
     private Integer updateBy;
 
     @ApiModelProperty(value = "修改时间")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     @ApiModelProperty(value = "删除标记")
     private Integer delFlag;

@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.common.BaseController;
 import com.example.demo.common.R;
 import com.example.demo.entityDto.ZyjMenuDto;
 import com.example.demo.service.ZyjMenuService;
+import com.example.demo.util.RedisKeys;
 import com.example.demo.util.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -28,7 +30,7 @@ import java.util.*;
 @Api(value = "菜单管理",tags = {"菜单管理"})
 @RestController
 @RequestMapping("/zyjMenu")
-public class ZyjMenuController {
+public class ZyjMenuController extends BaseController {
     @Autowired
     private ZyjMenuService zyjMenuService;
 
@@ -41,7 +43,7 @@ public class ZyjMenuController {
     @ApiOperation(value = "查询菜单列表")
     @ApiImplicitParam(name = "keyword", value = "模糊查询参数", required = false, paramType = "query", dataType = "String")
     public R findAllMenu(String keyword){
-
+        //Object o = RedisUtils.get(RedisKeys.getMenu(getUserId().toString()));
         List<ZyjMenuDto> allMenu = zyjMenuService.findAllMenu(keyword);
         //遍历取出parentId为0的顶级菜单
         List<ZyjMenuDto> rootMenu = new ArrayList<>();

@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,16 +36,58 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping("/zyjRoleMenu")
 public class ZyjRoleMenuController extends BaseController {
-   @Autowired
-   private ZyjRoleMenuService zyjRoleMenuService;
+    @Autowired
+    private ZyjRoleMenuService zyjRoleMenuService;
 
-   @GetMapping("/updateRoleMenu")
-   @ApiOperation(value = "修改角色菜单")
-   @ApiImplicitParams({
-           @ApiImplicitParam(name = "roleId", value = "角色id", required = true, paramType = "query", dataType = "int"),
-           @ApiImplicitParam(name = "menuIds", value = "字符串数组", required = true, paramType = "query", dataType = "String")
-   })
-    public R updateRoleMenu(Long roleId,String menuIds) {
+    @GetMapping("/updateRoleMenu")
+    @ApiOperation(value = "修改角色菜单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色id", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "menuIds", value = "字符串数组", required = true, paramType = "query", dataType = "String")
+    })
+    public R updateRoleMenu(Integer roleId, String menuIds) {
+        QueryWrapper<ZyjRoleMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ZyjRoleMenu::getRoleId, roleId);
+        List<ZyjRoleMenu> list = zyjRoleMenuService.list(queryWrapper);
+        JSONArray json = JSONObject.parseArray(menuIds);
+        //创建一个数组对象 长度和json数组一样 即json.size()
+        Integer[] a = new Integer[json.size()];
+        //然后将之转换成我们需要的数组就好了
+        Integer[] integers = json.toArray(a);
+        //Integer[] integers = new Integer[]{1, 2, 3,4,5,6,7,8};
+        List<Integer> webMenuIdLists1 = Arrays.asList(integers);
+        Collection<Long> deleteDataRoleMenuIdLists = new ArrayList<>();
+        Collection<Integer> selectDataMenuIdLists = new ArrayList<>();
+        Collection<Integer> webMenuIdLists = new ArrayList(webMenuIdLists1);
+        if(null != list) {
+            for (int i = 0; i < list.size(); i++) {
+                Long roleMenuid = list.get(i).getRoleMenuid();
+                Integer menuId = list.get(i).getMenuId();
+                if (!webMenuIdLists.contains(menuId)) {
+                    deleteDataRoleMenuIdLists.add(roleMenuid);
+                }
+                selectDataMenuIdLists.add(menuId);
+            }
+        }
+        // 求差集：结果
+        webMenuIdLists.removeAll(selectDataMenuIdLists);
+        List<ZyjRoleMenu> zyjRoleMenuInserts=new ArrayList<>();
+        for (Integer menuId : webMenuIdLists) {
+            ZyjRoleMenu zyjRoleMenu=new ZyjRoleMenu();
+            zyjRoleMenu.setMenuId(menuId);
+            zyjRoleMenu.setRoleId(roleId);
+            zyjRoleMenu.setDelFlag(Constant.DEL_FLAG_0);
+            zyjRoleMenuInserts.add(zyjRoleMenu);
+        }
+        if(null != deleteDataRoleMenuIdLists && deleteDataRoleMenuIdLists.size()>0) {
+            zyjRoleMenuService.removeByIds(deleteDataRoleMenuIdLists);
+        }
+        if(null != zyjRoleMenuInserts && zyjRoleMenuInserts.size()>0){
+            zyjRoleMenuService.saveBatch(zyjRoleMenuInserts);
+        }
+        return R.ok("保存成功");
+    }
+   /* public R updateRoleMenu(Long roleId,String menuIds) {
         QueryWrapper<ZyjRoleMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ZyjRoleMenu::getRoleId, roleId).eq(ZyjRoleMenu::getDelFlag, Constant.DEL_FLAG_0);
         List<ZyjRoleMenu> list = zyjRoleMenuService.list(queryWrapper);
@@ -75,7 +118,7 @@ public class ZyjRoleMenuController extends BaseController {
                     i[k] = Integer.parseInt(ins[k].toString());
                  }
             QueryWrapper<ZyjRoleMenu> queryWrapper1=new QueryWrapper<>();
-             queryWrapper1.lambda().in(ZyjRoleMenu::getMenuId,i);
+             queryWrapper1.in("menu_id",i);
              queryWrapper1.lambda().eq(ZyjRoleMenu::getRoleId,roleId);
              queryWrapper1.lambda().eq(ZyjRoleMenu::getDelFlag,Constant.DEL_FLAG_0);
             List<ZyjRoleMenu> list4 = zyjRoleMenuService.list(queryWrapper1);
@@ -105,6 +148,6 @@ public class ZyjRoleMenuController extends BaseController {
             return R.ok("保存成功");
         }
        return R.ok("保存成功");
-    }
+    }*/
 }
 
