@@ -33,7 +33,8 @@ import java.util.*;
 public class ZyjMenuController extends BaseController {
     @Autowired
     private ZyjMenuService zyjMenuService;
-
+    @Autowired
+    private RedisUtils redisUtils;
     /**
      * 查询菜单列表
      * @param keyword
@@ -43,35 +44,36 @@ public class ZyjMenuController extends BaseController {
     @ApiOperation(value = "查询菜单列表")
     @ApiImplicitParam(name = "keyword", value = "模糊查询参数", required = false, paramType = "query", dataType = "String")
     public R findAllMenu(String keyword){
-        //Object o = RedisUtils.get(RedisKeys.getMenu(getUserId().toString()));
-        List<ZyjMenuDto> allMenu = zyjMenuService.findAllMenu(keyword);
-        //遍历取出parentId为0的顶级菜单
-        List<ZyjMenuDto> rootMenu = new ArrayList<>();
-        for (ZyjMenuDto root : allMenu) {
-            if (null != root && root.getMenuParentId() == 0L) {
-                ZyjMenuDto menu = new ZyjMenuDto();
-                menu.setMenuId(root.getMenuId());
-                menu.setMenuCss(root.getMenuCss());
-                menu.setMenuName(root.getMenuName());
-                menu.setMenuLevel(root.getMenuLevel());
-                menu.setMenuDesc(root.getMenuDesc());
-                menu.setMenuParentId(root.getMenuParentId());
-                menu.setMenuUrl(root.getMenuUrl());
-                menu.setSortNo(root.getSortNo());
-                menu.setMenuPermissions(root.getMenuPermissions());
-                rootMenu.add(menu);
+
+            List<ZyjMenuDto> allMenu = zyjMenuService.findAllMenu(keyword);
+            //遍历取出parentId为0的顶级菜单
+            List<ZyjMenuDto> rootMenu = new ArrayList<>();
+            for (ZyjMenuDto root : allMenu) {
+                if (null != root && root.getMenuParentId() == 0L) {
+                    ZyjMenuDto menu = new ZyjMenuDto();
+                    menu.setMenuId(root.getMenuId());
+                    menu.setMenuCss(root.getMenuCss());
+                    menu.setMenuName(root.getMenuName());
+                    menu.setMenuLevel(root.getMenuLevel());
+                    menu.setMenuDesc(root.getMenuDesc());
+                    menu.setMenuParentId(root.getMenuParentId());
+                    menu.setMenuUrl(root.getMenuUrl());
+                    menu.setSortNo(root.getSortNo());
+                    menu.setMenuPermissions(root.getMenuPermissions());
+                    rootMenu.add(menu);
+                }
             }
-        }
-        //如果顶级菜单有数据，开始查找子节点
-        if (null != rootMenu && rootMenu.size() > 0) {
-            for(ZyjMenuDto root : rootMenu){
-                //子节点递归查找添加  传递父节点
-                root.setChildren(getChildren(root.getMenuId(),allMenu));
+            //如果顶级菜单有数据，开始查找子节点
+            if (null != rootMenu && rootMenu.size() > 0) {
+                for (ZyjMenuDto root : rootMenu) {
+                    //子节点递归查找添加  传递父节点
+                    root.setChildren(getChildren(root.getMenuId(), allMenu));
+                }
             }
-        }
-        allMenu.clear();
-        rootMenu.sort(Comparator.comparing(ZyjMenuDto::getSortNo));
-        return R.ok().put("data", rootMenu);
+            allMenu.clear();
+            rootMenu.sort(Comparator.comparing(ZyjMenuDto::getSortNo));
+            return R.ok().put("data", rootMenu);
+
     }
     //递归获取children节点
     @ApiIgnore()

@@ -17,6 +17,7 @@ spring:
     pool:
       max-active: 1000
       max-idle: 50
+    database: 0
     #spring:
     #rabbitmq:
     #host: 127.0.0.1
@@ -25,6 +26,7 @@ spring:
     #password: guest
       #virtual-host: 127.0.0.1
       #publisher-confirms: true
+
 #mybatisPlu
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml

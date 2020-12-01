@@ -68,9 +68,6 @@ public class ZyjRoleController extends BaseController {
                 zyjRole.setCreatedBy(CastUtil.castInt(getUserId()));
                 zyjRole.setCreatedTime(new Date());
                 zyjRoleService.save(zyjRole);
-                QueryWrapper<ZyjMenu> queryWrapper =new QueryWrapper<>();
-                        queryWrapper.lambda().eq(ZyjMenu::getDelFlag,Constant.DEL_FLAG_0);
-                List<ZyjMenu> list = zyjMenuService.list(queryWrapper);
                 return R.ok("添加成功");
             }
 }

@@ -4,9 +4,7 @@ import com.example.demo.entity.ZyjCommomAttachment;
 import com.example.demo.entityDto.ZyjMenuDto;
 import com.example.demo.service.ZyjCommomAttachmentService;
 import com.example.demo.service.ZyjMenuService;
-import com.example.demo.util.CastUtil;
-import com.example.demo.util.Constant;
-import com.example.demo.util.HttpContextUtils;
+import com.example.demo.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -35,7 +33,8 @@ public class CommonController extends BaseController{
    private ZyjCommomAttachmentService zyjCommomAttachmentService;
    @Value("${zyj.uploaddir}")
    private String uploadDir;
-
+   @Autowired
+   private RedisUtils redisUtils;
     /**
      * 根据登录人获取用户权限
      * @return
@@ -43,49 +42,59 @@ public class CommonController extends BaseController{
     @GetMapping("/getUserMenuList")
     @ApiOperation(value = "分页查询用户列表")
     public R getUserMenuList(){
-        Long userId = getUserId();
-        List<ZyjMenuDto> list;
-        Map<String, Object> params = new HashMap<>() ;
-        String menuLevel = "1,2,3";
-        params.put("menuType",menuLevel);
-        //超级管理员可以访问全部菜单
-        if(Constant.SUPER_ADMIN == userId) {
-            list= zyjMenuService.findAllMenu(null);
+        boolean o = redisUtils.exists(RedisKeys.getMenu(getRoleId().toString()));
+        System.out.println(getRoleId());
+        if (o==true){
+            System.out.println("从redis取");
+            Object o1 = redisUtils.get(RedisKeys.getMenu(getRoleId().toString()));
+            return R.ok().put("data",o1);
         }else {
-            list = zyjMenuService.findUserMenuList(userId,menuLevel,null);
-        }
-        List<ZyjMenuDto> rootMenu = new ArrayList<>();
-        if(StringUtils.isNotEmpty(menuLevel)   ){
-            for (ZyjMenuDto root : list) {
-                if (null != root && root.getMenuParentId()==0) {
-                    ZyjMenuDto menu = new ZyjMenuDto();
-                    menu.setMenuId(root.getMenuId());
-                    menu.setMenuCss(root.getMenuCss());
-                    menu.setMenuName(root.getMenuName());
-                    menu.setMenuParentId(root.getMenuParentId());
-                    menu.setMenuUrl(root.getMenuUrl());
-                    menu.setSortNo(root.getSortNo());
-                    menu.setMenuLevel(root.getMenuLevel());
-                    menu.setMenuPermissions(root.getMenuPermissions());
-                    menu.setMenuDesc(root.getMenuDesc());
-                    rootMenu.add(menu);
-                }
+            Long userId = getUserId();
+            List<ZyjMenuDto> list;
+            Map<String, Object> params = new HashMap<>();
+            String menuLevel = "1,2,3";
+            params.put("menuType", menuLevel);
+            //超级管理员可以访问全部菜单
+            if (Constant.SUPER_ADMIN == userId) {
+                list = zyjMenuService.findAllMenu(null);
+            } else {
+                list = zyjMenuService.findUserMenuList(userId, menuLevel, null);
             }
+            List<ZyjMenuDto> rootMenu = new ArrayList<>();
+            if (StringUtils.isNotEmpty(menuLevel)) {
+                for (ZyjMenuDto root : list) {
+                    if (null != root && root.getMenuParentId() == 0) {
+                        ZyjMenuDto menu = new ZyjMenuDto();
+                        menu.setMenuId(root.getMenuId());
+                        menu.setMenuCss(root.getMenuCss());
+                        menu.setMenuName(root.getMenuName());
+                        menu.setMenuParentId(root.getMenuParentId());
+                        menu.setMenuUrl(root.getMenuUrl());
+                        menu.setSortNo(root.getSortNo());
+                        menu.setMenuLevel(root.getMenuLevel());
+                        menu.setMenuPermissions(root.getMenuPermissions());
+                        menu.setMenuDesc(root.getMenuDesc());
+                        rootMenu.add(menu);
+                    }
+                }
 
-            //如果顶级菜单有数据，开始查找子节点
-            if (null != rootMenu && rootMenu.size() > 0) {
-                for(ZyjMenuDto root : rootMenu){
-                    //子节点递归查找添加  传递父节点
-                    List<ZyjMenuDto> mlist = getChildren(root.getMenuId(),list);
-                    root.setChildren(mlist);
-                    if(null!=mlist && mlist.size()>0 && null!=mlist.get(0).getChildren() && mlist.get(0).getChildren().size()>0){
-                        root.setMenuUrl(mlist.get(0).getChildren().get(0).getMenuUrl());
-                        mlist.get(0).setMenuUrl(mlist.get(0).getChildren().get(0).getMenuUrl());
+                //如果顶级菜单有数据，开始查找子节点
+                if (null != rootMenu && rootMenu.size() > 0) {
+                    for (ZyjMenuDto root : rootMenu) {
+                        //子节点递归查找添加  传递父节点
+                        List<ZyjMenuDto> mlist = getChildren(root.getMenuId(), list);
+                        root.setChildren(mlist);
+                        if (null != mlist && mlist.size() > 0 && null != mlist.get(0).getChildren() && mlist.get(0).getChildren().size() > 0) {
+                            root.setMenuUrl(mlist.get(0).getChildren().get(0).getMenuUrl());
+                            mlist.get(0).setMenuUrl(mlist.get(0).getChildren().get(0).getMenuUrl());
+                        }
                     }
                 }
             }
+            redisUtils.add(RedisKeys.getMenu(getRoleId().toString()),rootMenu);
+            System.out.println("从数据库取");
+            return R.ok().put("data", rootMenu);
         }
-        return R.ok().put("data", rootMenu);
     }
     //递归获取children节点
     @ApiIgnore()

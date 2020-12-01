@@ -19,6 +19,7 @@ public  abstract class BaseController {
     protected Long getUserId() {
         return getUser().getUserId();
     }
+    protected Long getRoleId(){return getUser().getRoleId();}
 
     protected String getLoginName() {
         return getUser().getLoginName();
