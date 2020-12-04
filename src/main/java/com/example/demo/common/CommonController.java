@@ -91,7 +91,7 @@ public class CommonController extends BaseController{
                     }
                 }
             }
-            redisUtils.add(RedisKeys.getMenu(getRoleId().toString()),rootMenu);
+            redisUtils.set(RedisKeys.getMenu(getRoleId().toString()),rootMenu);
             System.out.println("从数据库取");
             return R.ok().put("data", rootMenu);
         }

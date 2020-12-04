@@ -17,7 +17,7 @@ spring:
     pool:
       max-active: 1000
       max-idle: 50
-    database: 0
+    database: 1
     #spring:
     #rabbitmq:
     #host: 127.0.0.1
