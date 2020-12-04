@@ -53,6 +53,8 @@ public class ShiroConfig {
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/v2/**", "anon");
         filterMap.put("/login/login", "anon");
+        //大屏接口直接放行，不需要登录
+        filterMap.put("/BigScreenCtroller/**", "anon");
         //filterMap.put("/user/restartPassword", "anon");
         // 对所有用户认证
         filterMap.put("/**", "authc");

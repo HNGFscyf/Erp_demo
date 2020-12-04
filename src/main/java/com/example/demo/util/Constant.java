@@ -10,6 +10,10 @@ public class Constant {
     public static final String password= "000000";
     /*文件访问路径*/
     public static final String getfile="/source";
+    /** 用户启用 */
+    public static final Integer userStatus_0=0;
+    /** 用户禁用 */
+    public static final Integer userStatus_1=1;
     /**
      * 菜单类型
      */
