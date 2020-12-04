@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ErpCompanySeoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.ErpCompanySeo">
+        <id column="seo_id" property="seoId" />
+        <result column="seo_logo" property="seoLogo" />
+        <result column="seo_title" property="seoTitle" />
+        <result column="seo_ws" property="seoWs" />
+        <result column="have_new_home_page" property="haveNewHomePage" />
+        <result column="app_hide_show" property="appHideShow" />
+        <result column="rong_app_key" property="rongAppKey" />
+        <result column="rong_app_secret" property="rongAppSecret" />
+        <result column="big_screen_title" property="bigScreenTitle" />
+        <result column="big_screen_score" property="bigScreenScore" />
+    </resultMap>
+   <select id="findById" resultType="ErpCompanySeo">
+       select * from erp_company_seo where seo_id=#{seoId}
+   </select>
+</mapper>

@@ -1,5 +1,6 @@
-package com.example.demo.erp.entity;
+package com.example.demo.entity;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * erp_customer-客户表
+ * erp_product-商品表
  * </p>
  *
  * @author zyj
@@ -21,29 +22,26 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="ErpCustomer对象", description="erp_customer-客户表")
-public class ErpCustomer implements Serializable {
+@ApiModel(value="ErpProduct对象", description="erp_product-商品表")
+public class ErpProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "客户id")
-    @TableId(value = "customer_id", type = IdType.AUTO)
-    private Long customerId;
+    @ApiModelProperty(value = "商品表id")
+    @TableId(value = "product_id", type = IdType.AUTO)
+    private Long productId;
 
-    @ApiModelProperty(value = "客户名称")
-    private String customerName;
+    @ApiModelProperty(value = "商品名称")
+    private String productName;
 
-    @ApiModelProperty(value = "客户性别")
-    private Integer customerSex;
+    @ApiModelProperty(value = "单价")
+    private BigDecimal productPrice;
 
-    @ApiModelProperty(value = "联系人")
-    private String customerLinkName;
+    @ApiModelProperty(value = "商品父级id")
+    private Long productParentId;
 
-    @ApiModelProperty(value = "联系电话")
-    private Integer customerLinkPhone;
-
-    @ApiModelProperty(value = "是否启用")
-    private Integer customerEnable;
+    @ApiModelProperty(value = "是否为叶子节点(0否1是)")
+    private Integer productLeaf;
 
     @ApiModelProperty(value = "创建人")
     private Integer createdBy;
@@ -56,6 +54,9 @@ public class ErpCustomer implements Serializable {
 
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updatedTime;
+
+    @ApiModelProperty(value = "删除标识(0否1是)")
+    private Integer delFlag;
 
 
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.erp.mapper.ErpSellMapper">
+<mapper namespace="com.example.demo.mapper.ErpSellMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.demo.erp.entity.ErpSell">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.ErpSell">
         <id column="sell_id" property="sellId" />
         <result column="sell_number" property="sellNumber" />
         <result column="customer_id" property="customerId" />

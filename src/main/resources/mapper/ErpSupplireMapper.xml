@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.erp.mapper.ErpSupplireMapper">
+<mapper namespace="com.example.demo.mapper.ErpSupplireMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.demo.erp.entity.ErpSupplire">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.ErpSupplire">
         <id column="supplire_id" property="supplireId" />
         <result column="supplire_name" property="supplireName" />
         <result column="supplire_address" property="supplireAddress" />
