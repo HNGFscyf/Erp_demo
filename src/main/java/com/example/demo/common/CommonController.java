@@ -43,9 +43,7 @@ public class CommonController extends BaseController{
     @ApiOperation(value = "分页查询用户列表")
     public R getUserMenuList(){
         boolean o = redisUtils.exists(RedisKeys.getMenu(getRoleId().toString()));
-        System.out.println(getRoleId());
         if (o==true){
-            System.out.println("从redis取");
             Object o1 = redisUtils.get(RedisKeys.getMenu(getRoleId().toString()));
             return R.ok().put("data",o1);
         }else {
@@ -92,7 +90,6 @@ public class CommonController extends BaseController{
                 }
             }
             redisUtils.set(RedisKeys.getMenu(getRoleId().toString()),rootMenu);
-            System.out.println("从数据库取");
             return R.ok().put("data", rootMenu);
         }
     }

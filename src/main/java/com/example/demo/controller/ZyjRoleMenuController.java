@@ -40,7 +40,8 @@ import java.util.stream.Stream;
 public class ZyjRoleMenuController extends BaseController {
     @Autowired
     private ZyjRoleMenuService zyjRoleMenuService;
-
+    @Autowired
+    private RedisUtils redisUtils;
     @GetMapping("/updateRoleMenu")
     @ApiOperation(value = "修改角色菜单")
     @ApiImplicitParams({
@@ -86,6 +87,10 @@ public class ZyjRoleMenuController extends BaseController {
         }
         if(null != zyjRoleMenuInserts && zyjRoleMenuInserts.size()>0){
             zyjRoleMenuService.saveBatch(zyjRoleMenuInserts);
+        }
+        boolean exists = redisUtils.exists(RedisKeys.getMenu(roleId.toString()));
+        if (exists==true){
+            redisUtils.remove(RedisKeys.getMenu(roleId.toString()));
         }
         return R.ok("保存成功");
     }
