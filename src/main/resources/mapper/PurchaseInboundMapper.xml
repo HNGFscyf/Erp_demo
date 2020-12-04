@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.erp.mapper.PurchaseInboundMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.demo.erp.entity.PurchaseInbound">
+        <id column="inbound_id" property="inboundId" />
+        <result column="order_id" property="orderId" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="check_id" property="checkId" />
+        <result column="check_time" property="checkTime" />
+        <result column="status" property="status" />
+        <result column="inbound_remakes" property="inboundRemakes" />
+    </resultMap>
+
+</mapper>
