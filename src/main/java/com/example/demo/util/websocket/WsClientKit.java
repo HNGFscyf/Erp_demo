@@ -44,7 +44,7 @@ public class WsClientKit {
                 ExecutorService newFixThreadPool = Executors.newFixedThreadPool(10);
                 String pathUrl = path.concat("-back");
                 //String wsUrl = "ws://192.168.125.220:8081/ws?encoding=text&companyId=" + companyId + "&groupId=" + groupId + "&path=" + pathUrl + "&from=" + apiFrom;
-                String wsUrl = "ws://" + companySeo.getSeoWs() + "/ws/" + "/client";
+                String wsUrl = "ws://" + companySeo.getSeoWs() + "/ws/" + groupId+ "/client";
                 System.out.println("#######################wsUrl#######################"+wsUrl);
                 Runnable runnable = () -> {
                     try {
