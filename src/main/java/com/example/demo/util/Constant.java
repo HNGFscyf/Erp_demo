@@ -66,4 +66,20 @@ public class Constant {
      * 未删除
      */
     public static final Integer DEL_FLAG_0 = 0;
+    /**
+     * 待审批
+     */
+    public static final Integer speeded_0=0;
+    /**
+     * 已审批
+     */
+    public static final Integer speeded_1=1;
+    /**
+     * 待完成
+     */
+    public static final Integer complete_0=0;
+    /**
+     * 已完成
+     */
+    public static final Integer complete_1=1;
 }

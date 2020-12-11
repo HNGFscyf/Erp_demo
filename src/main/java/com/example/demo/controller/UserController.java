@@ -49,7 +49,7 @@ public class UserController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "第几页", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "size", value = "一页几条", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "keyWord", value = "关键词", required = true, paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "keyWord", value = "关键词", required = false, paramType = "query", dataType = "String")
     })
     @GetMapping("/pageList")
     public R pageList(Integer current,Integer size,String keyWord){
